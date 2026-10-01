@@ -20,5 +20,6 @@ import { Pokemon } from '../../../core/models/pokemon.model';
 })
 export class PokemonCardComponent {
   readonly pokemon = input.required<Pokemon>();
+  readonly priority = input<boolean>(false);
   readonly cardClick = output<number>();
 }

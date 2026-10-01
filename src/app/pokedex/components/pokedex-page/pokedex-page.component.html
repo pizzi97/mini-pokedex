@@ -35,9 +35,10 @@
 
   @if (selectors.filteredPokemon$ | async; as list) {
     <div class="pokemon-grid">
-      @for (pokemon of list; track pokemon.id) {
+      @for (pokemon of list; track pokemon.id; let i = $index) {
         <app-pokemon-card
           [pokemon]="pokemon"
+          [priority]="i === 0"
           (cardClick)="goToDetail($event)">
         </app-pokemon-card>
       }

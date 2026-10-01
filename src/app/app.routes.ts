@@ -9,6 +9,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'pokemon/:id',
+    loadComponent: () =>
+      import('./pokedex/components/pokemon-detail/pokemon-detail.component').then(
+        (m) => m.PokemonDetailComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

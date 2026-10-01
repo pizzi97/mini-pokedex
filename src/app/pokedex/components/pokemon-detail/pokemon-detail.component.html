@@ -1,0 +1,62 @@
+<div class="detail-container">
+  <button class="back-btn" (click)="goBack()">&larr; Torna alla lista</button>
+
+  @if (pokemon(); as p) {
+    <div class="detail-card">
+      <div class="header-section">
+        <img [src]="p.spriteUrl" [alt]="p.name" class="detail-image" />
+        <div class="header-info">
+          <span class="id-badge">#{{ p.id | number:'3.0-0' }}</span>
+          <h2>{{ p.name | titlecase }}</h2>
+          <div class="types">
+            @for (t of p.types; track t) {
+              <span class="type-badge">{{ t | titlecase }}</span>
+            }
+          </div>
+          <div class="physical-stats">
+            <span><strong>Altezza:</strong> {{ p.height / 10 }} m</span>
+            <span><strong>Peso:</strong> {{ p.weight / 10 }} kg</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Statistiche Base (Totale: {{ p.totalStats }})</h3>
+        <div class="stats-list">
+          @for (s of p.stats; track s.name) {
+            <div class="stat-row">
+              <span class="stat-name">{{ s.name | titlecase }}</span>
+              <div class="bar-track">
+                <div class="bar-fill" [style.width.%]="(s.value / 255) * 100"></div>
+              </div>
+              <span class="stat-value">{{ s.value }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Abilità</h3>
+        @if (isLoadingAbilities()) {
+          <p class="muted">Caricamento abilità...</p>
+        } @else {
+          <div class="abilities-list">
+            @for (a of abilities(); track a.name) {
+              <div class="ability-card">
+                <div class="ability-header">
+                  <strong>{{ a.name | titlecase }}</strong>
+                  @if (a.isHidden) {
+                    <span class="hidden-badge">Nascosta</span>
+                  }
+                </div>
+                <p>{{ a.effect }}</p>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <p class="not-found">Pokémon non trovato. Ritorna alla lista principale.</p>
+  }
+</div>

@@ -1,0 +1,36 @@
+<div class="page-container">
+  <!-- Header con Barra di Ricerca -->
+  <header class="header">
+    <h1>Pokédex Ingegnerizzato</h1>
+    <input
+      type="text"
+      placeholder="Cerca un Pokémon per nome..."
+      (input)="onSearchChange($event)"
+      class="search-input"
+    />
+  </header>
+
+  <!-- Messaggio di Errore -->
+  @if (store.error()) {
+    <div class="error-message">
+      {{ store.error() }}
+    </div>
+  }
+
+  <!-- Griglia dei Pokémon -->
+  <div class="pokemon-grid">
+    <!-- Usiamo la pipe async per iscriverci automaticamente al flusso filtrato -->
+    @for (pokemon of selectors.filteredPokemon$ | async; track pokemon.id) {
+      <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+    }
+  </div>
+
+  <!-- Scheletri di Caricamento (Visibili solo se isLoading è true) -->
+  @if (store.isLoading()) {
+    <div class="loading-grid">
+      @for (i of [1,2,3,4,5,6,7,8]; track i) {
+        <div class="sk-shimmer skeleton-card"></div>
+      }
+    </div>
+  }
+</div>

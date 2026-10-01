@@ -16,6 +16,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'team',
+    loadComponent: () =>
+      import('./teams/components/team-page/team-page.component').then((m) => m.TeamPageComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

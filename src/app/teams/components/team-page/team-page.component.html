@@ -1,0 +1,28 @@
+<div class="page-container">
+  <header class="header">
+    <h1>My Dream Team</h1>
+    <p class="subtitle">{{ teamStore.team().length }} / 6 Pokémon</p>
+  </header>
+
+  @if (teamStore.team().length === 0) {
+    <div class="empty-state">
+      <p>Your team is currently empty.</p>
+      <a routerLink="/" class="primary-btn">Go catch some Pokémon!</a>
+    </div>
+  } @else {
+    <div class="pokemon-grid">
+      @for (pokemon of teamStore.team(); track pokemon.id) {
+        <div class="team-member">
+          <app-pokemon-card
+            [pokemon]="pokemon"
+            (cardClick)="goToDetail($event)">
+          </app-pokemon-card>
+
+          <button class="remove-btn" (click)="teamStore.removeFromTeam(pokemon.id)">
+            Remove
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

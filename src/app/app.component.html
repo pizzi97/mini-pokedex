@@ -1,0 +1,13 @@
+<nav class="global-nav">
+  <div class="nav-content">
+    <a routerLink="/" class="logo">Mini Pokédex</a>
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Pokédex</a>
+      <a routerLink="/team" routerLinkActive="active">My Team</a>
+    </div>
+  </div>
+</nav>
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>

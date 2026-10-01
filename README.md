@@ -61,6 +61,22 @@ src/
 ├── styles.scss                   # Global stylesheets and architectural tokens
 └── main.ts                       # Application entry point
 ```
+## Setup and Execution Instructions
+To properly set up and run the application locally, follow these steps:
+
+1. Install Dependencies
+
+```bash
+npm install
+```
+
+2. Start the GraphQL Mock Server
+   Start the local mock server on port 4000 using the provided database configuration file:
+
+```bash
+npx json-graphql-server db.js -port 4000
+```
+
 ## Development server
 To start a local development server, run:
 

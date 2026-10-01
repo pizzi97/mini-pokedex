@@ -8,6 +8,16 @@
         <div class="header-info">
           <span class="id-badge">#{{ p.id | number:'3.0-0' }}</span>
           <h2>{{ p.name | titlecase }}</h2>
+
+          <button
+            type="button"
+            class="team-btn"
+            [class.in-team]="teamStore.isInTeam(p.id)"
+            [disabled]="!teamStore.isInTeam(p.id) && teamStore.isTeamFull()"
+            (click)="toggleTeamStatus(p)">
+            {{ teamStore.isInTeam(p.id) ? '- Remove from Team' : '+ Add to Team' }}
+          </button>
+
           <div class="types">
             @for (t of p.types; track t) {
               <span class="type-badge">{{ t | titlecase }}</span>

@@ -12,6 +12,7 @@ import { Subscription, first } from 'rxjs';
 import { PokemonStore } from '../../state/pokemon.store';
 import { PokemonApiService } from '../../services/pokemon-api.service';
 import { Pokemon, PokemonAbility } from '../../../core/models/pokemon.model';
+import { TeamStore } from '../../../teams/state/team.store';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -26,6 +27,7 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
   private readonly store = inject(PokemonStore);
   private readonly api = inject(PokemonApiService);
   private readonly location = inject(Location);
+  readonly teamStore = inject(TeamStore);
 
   readonly pokemon = signal<Pokemon | null>(null);
   readonly abilities = signal<PokemonAbility[]>([]);
@@ -56,6 +58,14 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+  }
+
+  toggleTeamStatus(pokemon: Pokemon): void {
+    if (this.teamStore.isInTeam(pokemon.id)) {
+      this.teamStore.removeFromTeam(pokemon.id);
+    } else {
+      this.teamStore.addToTeam(pokemon);
+    }
   }
 
   goBack(): void {

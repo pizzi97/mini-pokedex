@@ -114,3 +114,8 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## What I'd Improve with More Time
+- **Virtual Scrolling:** Implement `@angular/cdk/scrolling` for the Pokémon catalog table to handle massive datasets with ultimate performance instead of traditional pagination.
+- **End-to-End Testing:** Add full E2E test suites using Playwright to cover critical user flows (searching, filtering, and building a team).
+- **Offline Support:** Integrate a Service Worker / PWA capabilities to cache GraphQL responses locally for seamless offline usage.

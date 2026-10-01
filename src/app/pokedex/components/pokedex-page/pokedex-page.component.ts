@@ -21,7 +21,8 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
 
   private fetchSub?: Subscription;
 
-  // Lista tipi standard per il filtro a tendina
+  readonly skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
+
   readonly types: string[] = [
     'grass',
     'fire',

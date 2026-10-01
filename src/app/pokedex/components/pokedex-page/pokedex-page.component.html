@@ -3,7 +3,6 @@
     <h1>National Pokédex</h1>
 
     <div class="controls-bar">
-      <!-- Ricerca testuale con debounce -->
       <input
         type="text"
         placeholder="Cerca per nome..."
@@ -11,7 +10,6 @@
         class="search-input"
       />
 
-      <!-- Filtro per tipo -->
       <select (change)="onTypeChange($event)" class="type-select">
         <option value="">Tutti i Tipi</option>
         @for (type of types; track type) {
@@ -28,7 +26,7 @@
   }
 
   <div class="pokemon-grid">
-    @for (pokemon of selectors.filteredPokemon$ | async; track pokemon.id) {
+    @for (pokemon of (selectors.filteredPokemon$ | async) ?? []; track pokemon.id) {
       <app-pokemon-card
         [pokemon]="pokemon"
         (cardClick)="goToDetail($event)">
@@ -38,13 +36,12 @@
 
   @if (store.isLoading()) {
     <div class="loading-grid">
-      @for (i of [1,2,3,4,5,6,7,8]; track i) {
+      @for (i of skeletons; track i) {
         <div class="sk-shimmer skeleton-card"></div>
       }
     </div>
   }
 
-  <!-- Paginazione -->
   <div class="pagination-bar">
     <button
       class="nav-btn"

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PokemonStore } from '../../state/pokemon.store';
 import { PokemonSelectors } from '../../state/pokemon.selectors';
@@ -8,7 +9,6 @@ import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 @Component({
   selector: 'app-pokedex-page',
   standalone: true,
-  // Importiamo la Card creata prima per poterla usare nell'HTML
   imports: [CommonModule, AsyncPipe, PokemonCardComponent],
   templateUrl: './pokedex-page.component.html',
   styleUrl: './pokedex-page.component.scss',
@@ -17,21 +17,65 @@ import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 export class PokedexPageComponent implements OnInit, OnDestroy {
   readonly store = inject(PokemonStore);
   readonly selectors = inject(PokemonSelectors);
+  private readonly router = inject(Router);
+
   private fetchSub?: Subscription;
 
+  // Lista tipi standard per il filtro a tendina
+  readonly types: string[] = [
+    'grass',
+    'fire',
+    'water',
+    'bug',
+    'normal',
+    'poison',
+    'electric',
+    'ground',
+    'fairy',
+    'fighting',
+    'psychic',
+    'rock',
+    'ghost',
+    'ice',
+    'dragon',
+  ];
+
+  currentPage = 1;
+  private readonly pageSize = 20;
+
   ngOnInit(): void {
-    // Al caricamento del componente, avviamo il flusso dati RxJS per scaricare i Pokémon
     this.fetchSub = this.selectors.fetchPokemon().subscribe();
   }
 
   ngOnDestroy(): void {
-    // Pulizia rigorosa per evitare memory leak
     this.fetchSub?.unsubscribe();
   }
 
   onSearchChange(event: Event): void {
-    // Aggiorniamo il subject nello store ad ogni digitazione
     const input = event.target as HTMLInputElement;
     this.store.setSearchTerm(input.value);
+  }
+
+  onTypeChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    this.store.setTypeFilter(select.value);
+  }
+
+  nextPage(): void {
+    this.currentPage++;
+    const offset = (this.currentPage - 1) * this.pageSize;
+    this.store.setPagination(this.pageSize, offset);
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      const offset = (this.currentPage - 1) * this.pageSize;
+      this.store.setPagination(this.pageSize, offset);
+    }
+  }
+
+  goToDetail(pokemonId: number): void {
+    this.router.navigate(['/pokemon', pokemonId]);
   }
 }

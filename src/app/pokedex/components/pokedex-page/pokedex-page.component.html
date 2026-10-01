@@ -1,31 +1,41 @@
 <div class="page-container">
-  <!-- Header con Barra di Ricerca -->
   <header class="header">
-    <h1>Pokédex Ingegnerizzato</h1>
-    <input
-      type="text"
-      placeholder="Cerca un Pokémon per nome..."
-      (input)="onSearchChange($event)"
-      class="search-input"
-    />
+    <h1>National Pokédex</h1>
+
+    <div class="controls-bar">
+      <!-- Ricerca testuale con debounce -->
+      <input
+        type="text"
+        placeholder="Cerca per nome..."
+        (input)="onSearchChange($event)"
+        class="search-input"
+      />
+
+      <!-- Filtro per tipo -->
+      <select (change)="onTypeChange($event)" class="type-select">
+        <option value="">Tutti i Tipi</option>
+        @for (type of types; track type) {
+          <option [value]="type">{{ type | titlecase }}</option>
+        }
+      </select>
+    </div>
   </header>
 
-  <!-- Messaggio di Errore -->
   @if (store.error()) {
     <div class="error-message">
       {{ store.error() }}
     </div>
   }
 
-  <!-- Griglia dei Pokémon -->
   <div class="pokemon-grid">
-    <!-- Usiamo la pipe async per iscriverci automaticamente al flusso filtrato -->
     @for (pokemon of selectors.filteredPokemon$ | async; track pokemon.id) {
-      <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+      <app-pokemon-card
+        [pokemon]="pokemon"
+        (cardClick)="goToDetail($event)">
+      </app-pokemon-card>
     }
   </div>
 
-  <!-- Scheletri di Caricamento (Visibili solo se isLoading è true) -->
   @if (store.isLoading()) {
     <div class="loading-grid">
       @for (i of [1,2,3,4,5,6,7,8]; track i) {
@@ -33,4 +43,21 @@
       }
     </div>
   }
+
+  <!-- Paginazione -->
+  <div class="pagination-bar">
+    <button
+      class="nav-btn"
+      [disabled]="currentPage === 1 || store.isLoading()"
+      (click)="prevPage()">
+      &larr; Precedente
+    </button>
+    <span class="page-indicator">Pagina {{ currentPage }}</span>
+    <button
+      class="nav-btn"
+      [disabled]="store.isLoading()"
+      (click)="nextPage()">
+      Successivo &rarr;
+    </button>
+  </div>
 </div>

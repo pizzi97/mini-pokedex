@@ -1,3 +1,11 @@
+/**
+ * Reactive selectors and asynchronous effect layer for the Pokémon catalog.
+ *
+ * Composes store state slices into optimized reactive streams using RxJS operators
+ * (debounce, deduplication, multicasting), computes client-side filtered data, and
+ * orchestrates network side effects with automatic cancellation of superseded requests.
+ */
+
 import { Injectable, inject } from '@angular/core';
 import {
   combineLatest,
@@ -20,23 +28,12 @@ export class PokemonSelectors {
   private readonly store = inject(PokemonStore);
   private readonly api = inject(PokemonApiService);
 
-  /**
-   * 1. Flusso di Ricerca Ottimizzato.
-   * - debounceTime(300): attende 300ms di inattività prima di emettere il valore (evita calcoli a ogni singola lettera digitata).
-   * - distinctUntilChanged: blocca l'emissione se la parola cercata è identica alla precedente.
-   * - shareReplay(1): memorizza l'ultimo valore per i nuovi iscritti, evitando memory leak.
-   */
   readonly debouncedSearch$ = this.store.search$.pipe(
     debounceTime(300),
     distinctUntilChanged(),
     shareReplay(1),
   );
 
-  /**
-   * 2. Dati Derivati (Selettore Paginato e Filtrato).
-   * Ascolta simultaneamente i dati originali, la ricerca ottimizzata e il filtro a tendina.
-   * Ricalcola la lista finale da mostrare nella UI solo quando uno di questi tre cambia.
-   */
   readonly filteredPokemon$ = combineLatest([
     this.store.pokemonList$,
     this.debouncedSearch$,
@@ -52,12 +49,6 @@ export class PokemonSelectors {
     shareReplay(1),
   );
 
-  /**
-   * 3. Orchestrazione Rete (Effetto).
-   * Quando la paginazione cambia, avvia la chiamata HTTP.
-   * - switchMap: fondamentale qui. Se l'utente clicca "Avanti" due volte velocemente,
-   *   annulla la prima richiesta HTTP e tiene valida solo l'ultima.
-   */
   fetchPokemon(): Observable<Pokemon[]> {
     this.store.setLoading(true);
     this.store.setError(null);
@@ -69,10 +60,10 @@ export class PokemonSelectors {
             this.store.setPokemonList(data);
             this.store.setLoading(false);
           }),
-          catchError((error) => {
+          catchError(() => {
             this.store.setError('Network error loading Pokémon. Please try again.');
             this.store.setLoading(false);
-            return of([]); // Completa il flusso senza far "esplodere" la subscription
+            return of([]);
           }),
         ),
       ),

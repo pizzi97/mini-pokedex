@@ -1,10 +1,25 @@
+<!--
+  Detailed view layout for a selected Pokémon.
+
+  Renders detailed entity metrics, including high-priority hero sprites,
+  team toggle actions, physical measurements, normalized base stat progress bars,
+  and asynchronously fetched abilities with hidden status badges.
+-->
+
 <div class="detail-container">
   <button class="back-btn" (click)="goBack()">&larr; Back to list</button>
 
   @if (pokemon(); as p) {
     <div class="detail-card">
       <div class="header-section">
-        <img [src]="p.spriteUrl" [alt]="p.name" class="detail-image" />
+        <img
+          [ngSrc]="p.spriteUrl"
+          [alt]="p.name"
+          width="180"
+          height="180"
+          class="detail-image"
+          priority
+        />
         <div class="header-info">
           <span class="id-badge">#{{ p.id | number:'3.0-0' }}</span>
           <h2>{{ p.name | titlecase }}</h2>
@@ -20,7 +35,7 @@
 
           <div class="types">
             @for (t of p.types; track t) {
-              <span class="type-badge">{{ t | titlecase }}</span>
+              <span class="type-badge type-{{ t }}">{{ t | titlecase }}</span>
             }
           </div>
           <div class="physical-stats">

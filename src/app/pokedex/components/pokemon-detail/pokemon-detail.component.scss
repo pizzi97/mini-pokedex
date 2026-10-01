@@ -1,3 +1,11 @@
+/**
+ * Stylesheet for the Pokémon detailed view container.
+ *
+ * Defines layout constraints, responsive header orientations,
+ * interactive squad action triggers, dynamic stat bar gauges,
+ * and ability card styling.
+ */
+
 .detail-container {
   max-width: 800px;
   margin: 0 auto;
@@ -41,9 +49,8 @@
 }
 
 .detail-image {
-  width: 180px;
-  height: 180px;
   object-fit: contain;
+  animation: imageFadeIn 0.5s ease-out forwards;
 }
 
 .header-info {
@@ -98,14 +105,6 @@
   display: flex;
   gap: 8px;
   margin-bottom: 16px;
-
-  .type-badge {
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    background-color: var(--color-primary);
-    color: #fff;
-  }
 }
 
 .physical-stats {

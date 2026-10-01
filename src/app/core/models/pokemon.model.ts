@@ -1,6 +1,11 @@
 /**
- * Tipi grezzi restituiti direttamente dalla query GraphQL GetPokemon (PokéAPI v2).
+ * Core domain and API type definitions for the Pokédex feature.
+ *
+ * Contains raw response node shapes matching the PokéAPI v2 GraphQL schema,
+ * alongside clean domain models consumed across state stores, signals,
+ * and presentation components.
  */
+
 export interface PokemonStatNode {
   base_stat: number;
   pokemon_v2_stat: {

@@ -1,3 +1,11 @@
+<!--
+  Primary catalog view layout for the Pokédex feature.
+
+  Renders query controls (text search, type filtering), an asynchronous reactive
+  grid of Pokémon cards, placeholder skeleton loaders with shimmer feedback,
+  and pagination state controls.
+-->
+
 <div class="page-container">
   <header class="header">
     <h1>Pokédex</h1>
@@ -25,14 +33,16 @@
     </div>
   }
 
-  <div class="pokemon-grid">
-    @for (pokemon of (selectors.filteredPokemon$ | async) ?? []; track pokemon.id) {
-      <app-pokemon-card
-        [pokemon]="pokemon"
-        (cardClick)="goToDetail($event)">
-      </app-pokemon-card>
-    }
-  </div>
+  @if (selectors.filteredPokemon$ | async; as list) {
+    <div class="pokemon-grid">
+      @for (pokemon of list; track pokemon.id) {
+        <app-pokemon-card
+          [pokemon]="pokemon"
+          (cardClick)="goToDetail($event)">
+        </app-pokemon-card>
+      }
+    </div>
+  }
 
   @if (store.isLoading()) {
     <div class="loading-grid">

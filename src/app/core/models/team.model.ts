@@ -1,6 +1,11 @@
 /**
- * Entità Team memorizzata nel server GraphQL locale.
+ * Data contracts and payload schemas for squad management.
+ *
+ * Defines the core structure of a user's Pokémon squad, including
+ * trainer association and roster identifiers, alongside transmission
+ * payloads for squad creation and persistence.
  */
+
 export interface Team {
   id: number;
   trainer_id: number;
@@ -9,9 +14,6 @@ export interface Team {
   created_at: string;
 }
 
-/**
- * Payload per la creazione di un nuovo team (senza ID gestito dal backend).
- */
 export interface CreateTeamPayload {
   trainer_id: number;
   name: string;

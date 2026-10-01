@@ -1,3 +1,11 @@
+/**
+ * Data access service interfacing with the external PokéAPI GraphQL endpoint.
+ *
+ * Executes parameterized queries for catalog pagination and ability metadata,
+ * applies automatic retry strategies for network resiliency, and transforms
+ * raw GraphQL response nodes into normalized client domain models.
+ */
+
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, retry } from 'rxjs';

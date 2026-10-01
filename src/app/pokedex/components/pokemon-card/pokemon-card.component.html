@@ -1,15 +1,28 @@
-<div class="card-container" (click)="cardClick.emit(pokemon().id)">
-  <div class="sprite-wrapper">
-    <img [src]="pokemon().spriteUrl" [alt]="pokemon().name" loading="lazy" />
+<!--
+  Presentation template for individual Pokémon preview cards.
+
+  Displays optimized sprite graphics, formatted Pokédex index numbers,
+  capitalized entity names, and dynamic color-coded type indicators.
+-->
+
+<div class="card" (click)="cardClick.emit(pokemon().id)">
+  <div class="sprite-container">
+    <img
+      [ngSrc]="pokemon().spriteUrl"
+      [alt]="pokemon().name"
+      width="120"
+      height="120"
+      class="sprite"
+    />
   </div>
 
-  <div class="details">
-    <span class="id-badge">#{{ pokemon().id | number:'3.0-0' }}</span>
-    <h3 class="name">{{ pokemon().name | titlecase }}</h3>
+  <div class="info">
+    <span class="id">#{{ pokemon().id | number:'3.0-0' }}</span>
+    <h2 class="name">{{ pokemon().name | titlecase }}</h2>
 
     <div class="types">
-      @for (type of pokemon().types; track type) {
-        <span class="type-badge">{{ type | titlecase }}</span>
+      @for (t of pokemon().types; track t) {
+        <span class="type-badge type-{{ t }}">{{ t | titlecase }}</span>
       }
     </div>
   </div>

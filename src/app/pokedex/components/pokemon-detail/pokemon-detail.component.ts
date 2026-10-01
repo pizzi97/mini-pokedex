@@ -1,3 +1,11 @@
+/**
+ * Detailed view container component for a single Pokémon entity.
+ *
+ * Resolves route parameters to hydrate Pokémon details from the local store,
+ * asynchronously fetches extended ability metadata via GraphQL, provides
+ * squad membership toggling, and handles historical back-navigation.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +14,7 @@ import {
   OnDestroy,
   signal,
 } from '@angular/core';
-import { CommonModule, Location, TitleCasePipe } from '@angular/common';
+import { CommonModule, Location, TitleCasePipe, NgOptimizedImage } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, first } from 'rxjs';
 import { PokemonStore } from '../../state/pokemon.store';
@@ -17,7 +25,7 @@ import { TeamStore } from '../../../teams/state/team.store';
 @Component({
   selector: 'app-pokemon-detail',
   standalone: true,
-  imports: [CommonModule, TitleCasePipe],
+  imports: [CommonModule, TitleCasePipe, NgOptimizedImage],
   templateUrl: './pokemon-detail.component.html',
   styleUrl: './pokemon-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

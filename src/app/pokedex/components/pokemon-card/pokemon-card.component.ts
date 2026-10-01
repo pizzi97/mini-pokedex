@@ -1,16 +1,24 @@
+/**
+ * Presentational card component for an individual Pokémon entry.
+ *
+ * Implements modern Angular signal-based inputs and outputs to expose
+ * a read-only entity display, delegating selection events to parent containers
+ * under an OnPush change detection strategy.
+ */
+
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { CommonModule, TitleCasePipe } from '@angular/common';
+import { CommonModule, NgOptimizedImage, TitleCasePipe } from '@angular/common';
 import { Pokemon } from '../../../core/models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-card',
   standalone: true,
-  imports: [CommonModule, TitleCasePipe],
+  imports: [CommonModule, TitleCasePipe, NgOptimizedImage],
   templateUrl: './pokemon-card.component.html',
   styleUrl: './pokemon-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokemonCardComponent {
-  pokemon = input.required<Pokemon>();
-  cardClick = output<number>();
+  readonly pokemon = input.required<Pokemon>();
+  readonly cardClick = output<number>();
 }

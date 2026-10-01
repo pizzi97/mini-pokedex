@@ -1,3 +1,11 @@
+/**
+ * Root container component for the catalog view.
+ *
+ * Coordinates data fetching, reactive filter bindings (search term and type filter),
+ * client-side pagination, and navigation to detailed Pokémon views while leveraging
+ * OnPush change detection for optimal rendering performance.
+ */
+
 import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { Router } from '@angular/router';

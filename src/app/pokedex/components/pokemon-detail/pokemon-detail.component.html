@@ -1,5 +1,5 @@
 <div class="detail-container">
-  <button class="back-btn" (click)="goBack()">&larr; Torna alla lista</button>
+  <button class="back-btn" (click)="goBack()">&larr; Back to list</button>
 
   @if (pokemon(); as p) {
     <div class="detail-card">
@@ -14,14 +14,14 @@
             }
           </div>
           <div class="physical-stats">
-            <span><strong>Altezza:</strong> {{ p.height / 10 }} m</span>
-            <span><strong>Peso:</strong> {{ p.weight / 10 }} kg</span>
+            <span><strong>Height:</strong> {{ p.height / 10 }} m</span>
+            <span><strong>Weight:</strong> {{ p.weight / 10 }} kg</span>
           </div>
         </div>
       </div>
 
       <div class="section">
-        <h3>Statistiche Base (Totale: {{ p.totalStats }})</h3>
+        <h3>Base Stats (Total: {{ p.totalStats }})</h3>
         <div class="stats-list">
           @for (s of p.stats; track s.name) {
             <div class="stat-row">
@@ -36,9 +36,9 @@
       </div>
 
       <div class="section">
-        <h3>Abilità</h3>
+        <h3>Abilities</h3>
         @if (isLoadingAbilities()) {
-          <p class="muted">Caricamento abilità...</p>
+          <p class="muted">Loading abilities...</p>
         } @else {
           <div class="abilities-list">
             @for (a of abilities(); track a.name) {
@@ -46,7 +46,7 @@
                 <div class="ability-header">
                   <strong>{{ a.name | titlecase }}</strong>
                   @if (a.isHidden) {
-                    <span class="hidden-badge">Nascosta</span>
+                    <span class="hidden-badge">Hidden</span>
                   }
                 </div>
                 <p>{{ a.effect }}</p>
@@ -57,6 +57,6 @@
       </div>
     </div>
   } @else {
-    <p class="not-found">Pokémon non trovato. Ritorna alla lista principale.</p>
+    <p class="not-found">Pokémon not found. Return to the main list.</p>
   }
 </div>

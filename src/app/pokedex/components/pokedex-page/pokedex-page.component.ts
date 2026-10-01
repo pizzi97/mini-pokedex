@@ -21,7 +21,7 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
 
   private fetchSub?: Subscription;
 
-  readonly skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
+  readonly skeletons: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
 
   readonly types: string[] = [
     'grass',

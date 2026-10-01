@@ -37,7 +37,6 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (!id) return;
 
-    // Leggiamo la lista dall'Observable dello store
     this.sub = this.store.pokemonList$.pipe(first()).subscribe((list) => {
       const found = list.find((p) => p.id === id);
       if (found) {
@@ -45,7 +44,6 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Carichiamo le abilità via GraphQL
     this.isLoadingAbilities.set(true);
     this.api.getPokemonAbilities(id).subscribe({
       next: (data) => {

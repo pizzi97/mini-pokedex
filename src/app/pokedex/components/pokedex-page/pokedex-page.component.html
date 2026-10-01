@@ -1,17 +1,17 @@
 <div class="page-container">
   <header class="header">
-    <h1>National Pokédex</h1>
+    <h1>Pokédex</h1>
 
     <div class="controls-bar">
       <input
         type="text"
-        placeholder="Cerca per nome..."
+        placeholder="Search Pokémon by name..."
         (input)="onSearchChange($event)"
         class="search-input"
       />
 
       <select (change)="onTypeChange($event)" class="type-select">
-        <option value="">Tutti i Tipi</option>
+        <option value="">All Types</option>
         @for (type of types; track type) {
           <option [value]="type">{{ type | titlecase }}</option>
         }
@@ -36,7 +36,7 @@
 
   @if (store.isLoading()) {
     <div class="loading-grid">
-      @for (i of skeletons; track i) {
+      @for (skeletonId of skeletons; track skeletonId) {
         <div class="sk-shimmer skeleton-card"></div>
       }
     </div>
@@ -47,14 +47,14 @@
       class="nav-btn"
       [disabled]="currentPage === 1 || store.isLoading()"
       (click)="prevPage()">
-      &larr; Precedente
+      &larr; Previous
     </button>
-    <span class="page-indicator">Pagina {{ currentPage }}</span>
+    <span class="page-indicator">Page {{ currentPage }}</span>
     <button
       class="nav-btn"
       [disabled]="store.isLoading()"
       (click)="nextPage()">
-      Successivo &rarr;
+      Next &rarr;
     </button>
   </div>
 </div>

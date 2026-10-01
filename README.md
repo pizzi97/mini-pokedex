@@ -1,15 +1,72 @@
-# MiniPokedex
+# Mini Pokédex - Angular Single Page Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.0.
+This repository contains the source code for the "Mini Pokédex" project, a Single Page Application developed in Angular. The architecture, technological choices, and implemented features strictly adhere to the functional requirements and technical specifications outlined in the assignment PDFs provided for this project.
 
+## Introduction and Requirements Compliance
+
+The application was designed to provide an interactive Pokémon catalog and a user squad management system. In compliance with the PDF guidelines, the project integrates public GraphQL APIs (PokéAPI) to fetch global data and a local mock server to persist the user's squad information.
+
+The user interface was developed following the provided design guidelines, ensuring a fluid, responsive, and optimized experience, with specific attention paid to loading states and network error handling.
+
+## Tech Stack and Architectural Choices
+
+The project leverages modern features introduced in recent Angular versions, discarding NgModules in favor of a fully Standalone approach.
+
+*   **Framework:** Angular (Standalone Components, Native Control Flow)
+*   **Change Detection:** `ChangeDetectionStrategy.OnPush` applied globally to optimize the rendering cycle, reducing DOM recalculations strictly to components where the state explicitly changes.
+*   **State Management (Hybrid Approach):**
+*   **Angular Signals:** Used for fine-grained view state management (loading flags, errors, squad composition) ensuring synchronous reactivity.
+*   **RxJS (BehaviorSubject):** Employed to orchestrate complex and asynchronous data streams, such as pagination concatenation, textual search, and filtering.
+*   **Data Fetching:** Native `HttpClient` module used to execute GraphQL queries and mutations against designated endpoints.
+*   **Styling:** SCSS with a Custom Properties (CSS Variables) architecture to centralize design tokens and ease theme maintenance (e.g., elemental type colors, background palettes).
+
+## Implemented Features
+
+### 1. Catalog Exploration (Pokédex)
+*   **Server-Side Pagination:** Integration with the PokéAPI GraphQL endpoint to request batches of 20 Pokémon at a time, optimizing bandwidth usage.
+*   **Optimized Search Engine:** Implementation of a reactive RxJS stream using `debounceTime(300)` and `distinctUntilChanged` operators to prevent redundant API calls or recalculations during user input.
+*   **Combined Filters:** Use of `combineLatest` to simultaneously cross-reference network response data, the search term, and the type filter, returning a derived array processed entirely on the client side.
+
+### 2. Pokémon Detail
+*   Parametric navigation to the individual Pokémon detail page.
+*   Extended visualization of aggregated base statistics.
+*   Asynchronous fetching of specific abilities via a dedicated GraphQL query, including English translations or fallbacks if descriptions are missing.
+
+### 3. Squad Management (Dream Team)
+*   **Domain Rules:** Selection limited to a maximum of 6 Pokémon and strict duplication prevention, as per specifications.
+*   **Local and Remote Persistence:**
+*   Real-time state synchronization in `localStorage` to prevent data loss upon page refresh.
+*   Integration of `TeamApiService` to interact with a local GraphQL mock server via mutations (creating, reading, and deleting squads).
+
+## Project Structure
+
+The codebase is organized into conceptual feature modules, ensuring high cohesion and low coupling:
+
+```text
+src/
+├── app/
+│   ├── core/
+│   │   └── models/               # Domain TypeScript Interfaces (Pokemon, Team, GraphQL Node)
+│   ├── pokedex/                  # Feature: Catalog navigation and exploration
+│   │   ├── components/           # UI Components (Page, Card, Detail)
+│   │   ├── services/             # HTTP Communication Layer (PokéAPI)
+│   │   └── state/                # Store and Selectors (Signals + RxJS)
+│   ├── teams/                    # Feature: User squad management
+│   │   ├── components/           # Specific UI components for the team
+│   │   ├── services/             # GraphQL Mock Server communication
+│   │   └── state/                # State management and local persistence
+│   ├── app.component.ts          # Root Component (Shell)
+│   ├── app.config.ts             # Global providers configuration (Router, HTTP)
+│   └── app.routes.ts             # Lazy Loaded Routing configuration
+├── styles.scss                   # Global stylesheets and architectural tokens
+└── main.ts                       # Application entry point
+```
 ## Development server
-
 To start a local development server, run:
 
 ```bash
 ng serve
 ```
-
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
 ## Code scaffolding

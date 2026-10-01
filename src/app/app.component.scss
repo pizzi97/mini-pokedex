@@ -1,6 +1,16 @@
+/**
+ * Stylesheet for the global application layout and navigation bar.
+ *
+ * Implements a sticky, glassmorphism-styled navigation header with backdrop blur,
+ * centered container constraints, route link hover and active states, and
+ * full-height baseline layout sizing for the main router outlet container.
+ */
+
 .global-nav {
-  background-color: var(--color-surface-2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;

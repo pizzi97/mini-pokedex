@@ -1,3 +1,11 @@
+/**
+ * Root routing configuration for the application.
+ *
+ * Defines route definitions using lazy-loaded standalone components
+ * for the Pokédex catalog, Pokémon detailed inspect view, and squad
+ * management page, with a wildcard fallback redirecting to the catalog.
+ */
+
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [

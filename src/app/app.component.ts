@@ -1,3 +1,10 @@
+/**
+ * Root component serving as the primary presentation shell of the application.
+ *
+ * Configured as a standalone component that imports routing capabilities
+ * (RouterOutlet and RouterModule) to host the top navigation bar and dynamic feature views.
+ */
+
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
 

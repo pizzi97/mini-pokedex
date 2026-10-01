@@ -1,3 +1,11 @@
+/**
+ * Data access service interfacing with the local GraphQL squad mock server.
+ *
+ * Executes queries and mutations for squad persistence, handling operations
+ * such as retrieving all squads, creating new squads with automatic identifier
+ * generation, and deleting squads by ID.
+ */
+
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
@@ -5,7 +13,6 @@ import { Team, CreateTeamPayload } from '../../core/models/team.model';
 
 const MOCK_API_URL = 'http://localhost:4000';
 
-// Le query e mutazioni standard generate da json-graphql-server
 const GET_TEAMS_QUERY = `
   query GetTeams {
     allTeams {
@@ -42,9 +49,6 @@ const DELETE_TEAM_MUTATION = `
 export class TeamApiService {
   private readonly http = inject(HttpClient);
 
-  /**
-   * Recupera tutte le squadre dal mock server locale.
-   */
   getTeams(): Observable<Team[]> {
     return this.http
       .post<{ data: { allTeams: Team[] } }>(MOCK_API_URL, {
@@ -53,10 +57,6 @@ export class TeamApiService {
       .pipe(map((response) => response.data.allTeams));
   }
 
-  /**
-   * Crea una nuova squadra.
-   * Il server mock genererà e restituirà automaticamente l'ID assegnato.
-   */
   createTeam(payload: CreateTeamPayload): Observable<Team> {
     return this.http
       .post<{ data: { createTeam: Team } }>(MOCK_API_URL, {
@@ -66,14 +66,10 @@ export class TeamApiService {
       .pipe(map((response) => response.data.createTeam));
   }
 
-  /**
-   * Elimina una squadra tramite il suo ID.
-   */
   deleteTeam(id: number): Observable<boolean> {
     return this.http
       .post<{ data: { removeTeam: { id: string } } }>(MOCK_API_URL, {
         query: DELETE_TEAM_MUTATION,
-        // GraphQL si aspetta che gli identificatori di tipo ID! siano stringhe nelle variabili
         variables: { id: id.toString() },
       })
       .pipe(map(() => true));

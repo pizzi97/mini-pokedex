@@ -1,3 +1,11 @@
+/**
+ * Root container component for the squad management feature.
+ *
+ * Exposes the active team roster from the store to the view, coordinates
+ * individual member removals, and provides navigation to detailed inspect views
+ * while enforcing OnPush change detection.
+ */
+
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Pokemon } from '../../../core/models/pokemon.model';
 
@@ -12,4 +12,5 @@ import { Pokemon } from '../../../core/models/pokemon.model';
 })
 export class PokemonCardComponent {
   pokemon = input.required<Pokemon>();
+  cardClick = output<number>();
 }

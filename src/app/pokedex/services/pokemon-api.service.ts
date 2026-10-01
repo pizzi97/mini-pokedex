@@ -3,10 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map, retry } from 'rxjs';
 import { Pokemon, PokemonAbility, PokemonNode } from '../../core/models/pokemon.model';
 
-// Costanti
 const POKEAPI_URL = 'https://beta.pokeapi.co/graphql/v1beta';
 
-// Query esatte richieste dalle specifiche del task
 const GET_POKEMON_QUERY = `
   query GetPokemon($limit: Int, $offset: Int) {
     pokemon_v2_pokemon(limit: $limit, offset: $offset) {
@@ -50,9 +48,6 @@ const GET_ABILITIES_QUERY = `
 export class PokemonApiService {
   private readonly http = inject(HttpClient);
 
-  /**
-   * Recupera la lista paginata dei Pokémon e applica un retry pattern.
-   */
   getPokemonList(limit: number = 20, offset: number = 0): Observable<Pokemon[]> {
     return this.http
       .post<{ data: { pokemon_v2_pokemon: PokemonNode[] } }>(POKEAPI_URL, {
@@ -60,7 +55,6 @@ export class PokemonApiService {
         variables: { limit, offset },
       })
       .pipe(
-        // Requisito di resilienza: retry in caso di fallimento di rete
         retry({ count: 3, delay: 1000 }),
         map((response) =>
           response.data.pokemon_v2_pokemon.map((node) => this.mapPokemonNode(node)),
@@ -68,9 +62,6 @@ export class PokemonApiService {
       );
   }
 
-  /**
-   * Recupera le abilità di un singolo Pokémon.
-   */
   getPokemonAbilities(pokemonId: number): Observable<PokemonAbility[]> {
     return this.http
       .post<{ data: { pokemon_v2_pokemonability: any[] } }>(POKEAPI_URL, {
@@ -91,20 +82,9 @@ export class PokemonApiService {
       );
   }
 
-  /**
-   * Utility privata per mappare i DTO complessi in entità pulite
-   */
   private mapPokemonNode(node: PokemonNode): Pokemon {
-    // Parsing sicuro dello sprite JSON
-    let spriteUrl = '';
-    try {
-      const spritesParsed = JSON.parse(node.pokemon_v2_pokemonsprites[0]?.sprites || '{}');
-      spriteUrl = spritesParsed.front_default || '';
-    } catch {
-      spriteUrl = '';
-    }
+    const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${node.id}.png`;
 
-    // Estrazione pulita delle statistiche
     const stats = node.pokemon_v2_pokemonstats.map((s) => ({
       name: s.pokemon_v2_stat.name,
       value: s.base_stat,

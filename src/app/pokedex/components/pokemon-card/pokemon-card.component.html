@@ -1,7 +1,8 @@
-<div class="card-container">
+<div class="card-container" (click)="cardClick.emit(pokemon().id)">
   <div class="sprite-wrapper">
     <img [src]="pokemon().spriteUrl" [alt]="pokemon().name" loading="lazy" />
   </div>
+
   <div class="details">
     <span class="id-badge">#{{ pokemon().id | number:'3.0-0' }}</span>
     <h3 class="name">{{ pokemon().name | titlecase }}</h3>
